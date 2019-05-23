@@ -7,9 +7,9 @@ public class CalculusCalculator {
 	
 	public CalculusCalculator() {
 		//String input = getInputString(">");
-		String input = "200x+9x^2-2x^3+3";
-		Function function = new Function(input);
-		System.out.println(function.getDerivative());
+		String input = "(8x^3-200x+9x^2)/(-2x^3-3)";
+		Function function = Function.parseFunction(input);
+		System.out.println(function.evaluate(5));
 	}
 	
 	public static void main(String[] args) {
