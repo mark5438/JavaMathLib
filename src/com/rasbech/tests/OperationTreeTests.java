@@ -8,12 +8,6 @@ import com.rasbech.operations.ExpressionOperation;
 import com.rasbech.operations.Operation;
 
 class OperationTreeTests {
-	@Test
-	void test() {
-		testConstant();
-		testVariable();
-		testPowerVariable();
-	}
 	
 	@Test
 	void testConstant() {

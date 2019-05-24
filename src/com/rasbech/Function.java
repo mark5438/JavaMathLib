@@ -62,16 +62,16 @@ public class Function {
 			else
 				return getOperations(getTokens(tokens.get(0).substring(1, tokens.get(0).length() - 1)));
 		}
-		if(isAllMultiplicationAndDivision(tokens)) {
-			for(int i = tokens.size() - 1; i > -1; i--){
-				if(isOperation(tokens.get(i))) {
+		if (isAllMultiplicationAndDivision(tokens)) {
+			for (int i = tokens.size() - 1; i > -1; i--) {
+				if (isOperation(tokens.get(i))) {
 					List<String> left = tokens.subList(0, i);
 					String right = tokens.get(i + 1);
 					char sign = tokens.get(i).charAt(0);
 					if (sign == '/')
 						return new DivisionOperation(getOperations(left), getOperations(getTokens(right)));
 					if (sign == '*')
-						return new MultiplicationOperation(getOperations(left), getOperations(getTokens(right)));					
+						return new MultiplicationOperation(getOperations(left), getOperations(getTokens(right)));
 				}
 			}
 			return null;
@@ -147,7 +147,7 @@ public class Function {
 	}
 
 	private static boolean isOperation(char c) {
-		return (c + "").matches("[+-/*]");
+		return c == '+' || c == '-' || c == '*' || c == '/';
 	}
 
 	// Conditions:

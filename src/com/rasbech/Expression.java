@@ -36,6 +36,10 @@ public class Expression {
 		char var;
 		String power = "";
 		
+		if(Character.isDigit(expression.charAt(0)) == false) {
+			expression = "1" + expression;
+		}
+		
 		int i = 0;
 		while(i < expression.length() && (Character.isDigit(expression.charAt(i)) || (expression.charAt(i) == '.' && number.contains(",") == false))) {
 			number += expression.charAt(i);
