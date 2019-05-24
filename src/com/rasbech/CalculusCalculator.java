@@ -7,7 +7,7 @@ public class CalculusCalculator {
 	
 	public CalculusCalculator() {
 		//String input = getInputString(">");
-		String input = "(8x^3-200x+9x^2)/(-2x^3-3)";
+		String input = "(8x^3-200x+9x^2)/(-2x^3-3)-3x+7*54x^2";
 		Function function = Function.parseFunction(input);
 		System.out.println(function.evaluate(5));
 	}

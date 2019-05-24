@@ -1,6 +1,8 @@
 package com.rasbech.util;
 
 import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Calculus com.rasbech.util SignComparator.java 2019 <b>SignComparator</b>
@@ -10,6 +12,14 @@ import java.util.Comparator;
  * </p>
  */
 public class SignComparator implements Comparator<String> {
+	private static final Map<Character, Integer> characterValues = new TreeMap<Character, Integer>();
+
+	static {
+		characterValues.put('-', 1);
+		characterValues.put('+', 2);
+		characterValues.put('/', 3);
+		characterValues.put('*', 4);
+	}
 
 	// TODO: Check for nulls
 	// TODO: Check if first character is + or -
@@ -17,12 +27,7 @@ public class SignComparator implements Comparator<String> {
 	public int compare(String str1, String str2) {
 		char c1 = str1.charAt(0);
 		char c2 = str2.charAt(0);
-
-		if (c1 == '-' && c2 == '+')
-			return 1;
-		if (c1 == '+' && c2 == '-')
-			return -1;
-		return 0;
+		return characterValues.get(c2) - characterValues.get(c1);
 	}
 
 }

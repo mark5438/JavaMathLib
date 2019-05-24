@@ -3,10 +3,10 @@ package com.rasbech;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rasbech.operations.ActionOperation;
 import com.rasbech.operations.DivisionOperation;
 import com.rasbech.operations.ExpressionOperation;
 import com.rasbech.operations.MinusOperation;
+import com.rasbech.operations.MultiplicationOperation;
 import com.rasbech.operations.Operation;
 import com.rasbech.operations.PlusOperation;
 import com.rasbech.util.SignComparator;
@@ -21,19 +21,19 @@ public class Function {
 	private Function(OperationalTree functionalTree) {
 		this.functionTree = functionalTree;
 	}
-	
+
 	public double evaluate(double variable) {
 		return functionTree.evaluate(variable);
 	}
 
 	// TODO: Clean function. Split into sub functions
 	public static Function parseFunction(String function) {
-		String[] tokens = getTokens(function);
+		List<String> tokens = getTokens(function);
 		Operation operation = getOperations(tokens);
 		return new Function(new OperationalTree(operation));
 	}
 
-	private static String[] getTokens(String function) {
+	private static List<String> getTokens(String function) {
 		List<String> tokens = new ArrayList<String>();
 		int bracketBalance = 0;
 		String s = "";
@@ -48,142 +48,93 @@ public class Function {
 				s += function.charAt(i);
 		}
 		tokens.add(s);
-		return tokens.toArray(new String[tokens.size()]);
+		return tokens;
 	}
 
 	// TODO: I did not start writing this function, but i predict a comment i might
 	// put here:
 	// TODO: Clean up
-	private static Operation getOperations(String[] tokens) {
-		// for (String s : tokens)
-		// System.out.println(s);
-		// System.out.println("\n");
-
-		// TODO: Check if function is single expression
-		// TODO: If so use ExpressionOperation instead
-		if (tokens.length == 1)
-			return new ExpressionOperation(tokens[0]);
-		ActionOperation operation = null;
-		String left = null, right = null;
-		String function = String.join("", tokens);
-
-		if (hasDivisionOrMultiplication(function)) {
-			for (int i = 0; i < tokens.length; i++) {
-				if (tokens[i].length() == 1) {
-					if (isDivision(tokens[i].charAt(0))) {
-						operation = new DivisionOperation();
-						left = tokens[i - 1];
-						right = tokens[i + 1];
-						break;
-					}
+	private static Operation getOperations(List<String> tokens) {
+		addBrackets(tokens);
+		if (tokens.size() == 1) {
+			if (isMonomial(tokens.get(0)))
+				return new ExpressionOperation(tokens.get(0));
+			else
+				return getOperations(getTokens(tokens.get(0).substring(1, tokens.get(0).length() - 1)));
+		}
+		if(isAllMultiplicationAndDivision(tokens)) {
+			for(int i = tokens.size() - 1; i > -1; i--){
+				if(isOperation(tokens.get(i))) {
+					List<String> left = tokens.subList(0, i);
+					String right = tokens.get(i + 1);
+					char sign = tokens.get(i).charAt(0);
+					if (sign == '/')
+						return new DivisionOperation(getOperations(left), getOperations(getTokens(right)));
+					if (sign == '*')
+						return new MultiplicationOperation(getOperations(left), getOperations(getTokens(right)));					
 				}
 			}
-			if (isPolynomial(left)) {
-				operation.setLeftOperation(getOperations(getTokens(prepareFunction(left))));
-			}
-			if (isPolynomial(right)) {
-				operation.setRightOperation(getOperations(getTokens(prepareFunction(right))));
-			}
-		} else if (isPolynomial(function)) {
-			operation = getNonMultiplyPolynomialOperation(tokens);
+			return null;
 		}
-
-		return operation;
-	}
-
-	// TODO: Clean up. Split function
-	private static ActionOperation getNonMultiplyPolynomialOperation(String[] tokensArray) {
-		List<String> tokens = getList(tokensArray);
 		if (isOperation(tokens.get(0)) == false)
 			tokens.add(0, "+");
 		List<String> expressions = new ArrayList<String>();
 		for (int i = 0; i < tokens.size(); i += 2)
 			expressions.add(tokens.get(i) + tokens.get(i + 1));
 		expressions.sort(new SignComparator());
-		String[] sortedTokens = expressionsListToTokenArray(expressions);
-		for (int i = sortedTokens.length - 2; i > -1; i -= 2) {
-			char sign = sortedTokens[i].charAt(0);
-			String[] remainder = getElementsAtIndexes(sortedTokens, 0, i);
-			Operation right = new ExpressionOperation(sortedTokens[i + 1]);
-			Operation left = null;
-			if(remainder.length == 1)
-				left = new ExpressionOperation(sortedTokens[i - 1]);
-			else
-				left = getNonMultiplyPolynomialOperation(remainder);
-			
-			if(sign == '-')
-				return new MinusOperation(left, right);
-			if(sign == '+')
-				return new PlusOperation(left, right);
+		tokens = getTokensFromExpressionsList(expressions);
+		for (int i = tokens.size() - 1; i > -1; i--) {
+			if (isOperation(tokens.get(i))) {
+				List<String> left = tokens.subList(0, i);
+				String right = tokens.get(i + 1);
+				char sign = tokens.get(i).charAt(0);
+				if (sign == '-')
+					return new MinusOperation(getOperations(left), getOperations(getTokens(right)));
+				if (sign == '+')
+					return new PlusOperation(getOperations(left), getOperations(getTokens(right)));
+			}
 		}
 		return null;
 	}
 
-	// TODO: Go to stack overflow. This can be done easier
-	private static String[] getElementsAtIndexes(String[] arr, int begin, int end) {
-		String[] out = new String[end - begin];
-		for (int i = begin, j = 0; i < end; i++, j++) {
-			out[j] = arr[i];
-		}
-		return out;
+	private static boolean isAllMultiplicationAndDivision(List<String> tokens) {
+		for (String token : tokens)
+			if (isOperation(token))
+				if (token.equals("-") || token.equals("+"))
+					return false;
+		return true;
 	}
 
-	private static String[] expressionsListToTokenArray(List<String> expressions) {
+	private static List<String> getTokensFromExpressionsList(List<String> expressions) {
 		List<String> tokens = new ArrayList<String>();
 		for (String s : expressions) {
-			char sign = s.charAt(0);
-			String expression = s.substring(1);
-			tokens.add(sign + "");
-			tokens.add(expression);
+			tokens.add(s.charAt(0) + "");
+			tokens.add(s.substring(1));
 		}
 		if (tokens.get(0).equals("+"))
 			tokens.remove(0);
 		if (tokens.get(0).equals("-"))
 			tokens.add(0, "0");
-
-		return tokens.toArray(new String[tokens.size()]);
+		return tokens;
 	}
 
-	// TODO: Find out if there is an easier way to do this
-	private static List<String> getList(String[] arr) {
-		List<String> list = new ArrayList<String>();
-		for (String s : arr)
-			list.add(s);
-		return list;
+	private static boolean isMonomial(String function) {
+		return (function.contains("+") || function.contains("-") || function.contains("*")
+				|| function.contains("/")) == false;
 	}
 
-	// Return parsed function without enclosing brackets
-	private static String prepareFunction(String function) {
-		if (isBracketPolynomial(function))
-			return function.substring(1, function.length() - 1);
-		else
-			return function;
-	}
-
-	private static boolean hasDivisionOrMultiplication(String function) {
-		return function.contains("*") || function.contains("/");
-	}
-
-	// TODO: Check if null
-	private static boolean isBracketPolynomial(String s) {
-		return s.charAt(0) == '(' && s.charAt(s.length() - 1) == ')';
-	}
-
-	/**
-	 * <b>isPolynomial(String s)</b>
-	 * <p>
-	 * Check whether a function string is a polynomial or single expression. A
-	 * single expression will return false, even though technically it should be a
-	 * polynomial.
-	 * </p>
-	 * 
-	 * @param s
-	 *            String represents the function checking
-	 * @return boolean. True if function is polynomial. False if function consist of
-	 *         single expression
-	 */
-	private static boolean isPolynomial(String s) {
-		return s != null && (s.contains("+") || s.contains("-") || s.contains("/") || s.contains("*"));
+	private static void addBrackets(List<String> tokens) {
+		if (tokens.size() == 3)
+			return;
+		for (int i = tokens.size() - 1; i > -1; i--) {
+			if (tokens.get(i).equals("/") || tokens.get(i).equals("*")) {
+				String operation = "(" + tokens.get(i - 1) + tokens.get(i) + tokens.get(i + 1) + ")";
+				tokens.remove(i + 1);
+				tokens.remove(i);
+				tokens.set(i - 1, operation);
+				i--;
+			}
+		}
 	}
 
 	private static int getBracketCount(char c) {
@@ -206,10 +157,6 @@ public class Function {
 	// c != null
 	private static boolean isOperation(String c) {
 		return isOperation(c.charAt(0));
-	}
-
-	private static boolean isDivision(char c) {
-		return c == '/';
 	}
 
 	@Override
