@@ -14,6 +14,13 @@ public static void main (String[] args) {
 ## Features
 As of now the features list is very limited. Functions can be evaluated with given variable values from a map.
 
+## Missing features
+Features i am hoping to include soon:
+* Simplify functions
+* Solve equations
+* Find derivatives + integrals
+* Solve intergral equations
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
