@@ -17,6 +17,8 @@ public abstract class ActionOperation implements Operation {
 			return new DivisionOperation(left, right);
 		if(sign == '*')
 			return new MultiplicationOperation(left, right);
+		if (sign == '^')
+			return new PowerOperation(left, right);
 		return null;
 	}
 	

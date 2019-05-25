@@ -30,9 +30,11 @@ public class FunctionEvaluationTests {
 		Function f1 = Function.parseFunction("x^2");
 		Function f2 = Function.parseFunction("x^0.5");
 		Function f3 = Function.parseFunction("x^(1/3)");
+		Function f4 = Function.parseFunction("x^10");
 		assertEquals(9, f1.evaluate(3), "Variable with power");
 		assertEquals(3, f2.evaluate(9), "Non integer powers");
-		assertEquals(27, f3.evaluate(3), "Rational powers");
+		assertEquals(3, f3.evaluate(27), "Rational powers");
+		assertEquals(1024, f4.evaluate(2), "Multi digit power");
 	}
 
 	@Test
@@ -87,7 +89,17 @@ public class FunctionEvaluationTests {
 	@Test
 	void squaredFunction() {
 		Function f1 = Function.parseFunction("(5x+2)^2");
-		assertEquals(729, f1.evaluate(5), "Squared function");
+		Function f2 = Function.parseFunction("(5x^2+2x-6)^2");
+		Function f3 = Function.parseFunction("(5x^2+2x-6)^2*(3x+7)");
+		assertEquals(729, f1.evaluate(5), "Squared binomial");
+		assertEquals(2025, f2.evaluate(3), "Squared trinomial");
+		assertEquals(4212, f3.evaluate(2), "Squared trinomial multiplied with binomial");
+	}
+	
+	@Test
+	void higherPowerFunctions() {
+		Function f1 = Function.parseFunction("(5x+2)^11");
+		assertEquals(Math.pow(12, 11), f1.evaluate(2));
 	}
 
 	@Test

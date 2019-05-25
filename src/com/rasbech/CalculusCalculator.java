@@ -10,9 +10,9 @@ public class CalculusCalculator {
 	public CalculusCalculator() {
 		//String input = getInputString(">");
 //		String input = "(8x^3-200x+9x^2)/(-2x^3-3)-3x+54x^2";
-		String input = "(5x+2)^3";
+		String input = "(5x^2+2x-6)^2";
 		Function function = Function.parseFunction(input);
-		System.out.println(function.evaluate(5));
+		System.out.println(function.evaluate(3));
 	}
 	
 	public static void main(String[] args) {

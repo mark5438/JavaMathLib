@@ -41,8 +41,8 @@ public class FunctionParser {
 					tokens.add(s);
 				tokens.add(function.charAt(i) + "");
 				s = "";
-			} else if (function.charAt(i) == ')' && bracketBalance == 0) {
-				tokens.add(s + function.charAt(i));
+			} else if (i < function.length() - 1 && function.charAt(i) == ')' && function.charAt(i + 1) == '(' && bracketBalance == 0) {
+				tokens.add(s + ")");
 				s = "";
 			} else {
 				s += function.charAt(i);
@@ -80,28 +80,70 @@ public class FunctionParser {
 	}
 
 	private boolean isMonomial(String function) {
-		return (function.contains("+") || function.contains("-") || function.contains("*")
-				|| function.contains("/")) == false;
+		return (function.contains("+") || function.contains("-") || function.contains("*") || function.contains("/")
+				|| function.contains("^")) == false;
+	}
+
+	// Pre-condition: Expression must be single variable after a number
+	private List<String> splitExpression(String expression) {
+		List<String> tokens = new ArrayList<String>();
+		if (Character.isDigit(expression.charAt(expression.length() - 1)) || expression.length() == 1) {
+			tokens.add(expression);
+			return tokens;
+		}
+		tokens.add(expression.substring(0, expression.length() - 1));
+		tokens.add("*");
+		tokens.add(expression.charAt(expression.length() - 1) + "");
+		return tokens;
 	}
 
 	private void prepareTokens(List<String> tokens) {
+		System.out.println("b: " + tokens);
 		enforceLeadingZero(tokens);
-		addMultiplicationSigns(tokens);
-		addBrackets(tokens);
+		addMultiplicationBracketSigns(tokens);
+		expandExpressions(tokens);
+		addPowerBrackets(tokens);
+		addMultiplicationBrackets(tokens);
+		System.out.println("a: " + tokens);
 	}
 
 	private void enforceLeadingZero(List<String> tokens) {
-		if(tokens.get(0).equals("-"))
+		if (tokens.get(0).equals("-"))
 			tokens.add(0, "0");
 	}
 
-	private void addMultiplicationSigns(List<String> tokens) {
-		for (int i = tokens.size() - 1; i > 0; i--)
-			if (isBracketPolynomial(tokens.get(i - 1)) && isBracketPolynomial(tokens.get(i)))
+	private void addMultiplicationBracketSigns(List<String> tokens) {
+		for (int i = tokens.size() - 1; i > -1; i--) {
+			if (i > 0 && isBracketPolynomial(tokens.get(i - 1)) && isBracketPolynomial(tokens.get(i)))
 				tokens.add(i, "*");
+		}
 	}
 
-	private void addBrackets(List<String> tokens) {
+	private void expandExpressions(List<String> tokens) {
+		for (int i = tokens.size() - 1; i > -1; i--) {
+			if (isMonomial(tokens.get(i))) {
+				List<String> expression = splitExpression(tokens.get(i));
+				tokens.remove(i);
+				tokens.addAll(i, expression);
+			}
+		}
+	}
+
+	private void addPowerBrackets(List<String> tokens) {
+		if (tokens.size() == 3)
+			return;
+		for (int i = tokens.size() - 1; i > -1; i--) {
+			if (tokens.get(i).equals("^")) {
+				String operation = "(" + tokens.get(i - 1) + tokens.get(i) + tokens.get(i + 1) + ")";
+				tokens.remove(i + 1);
+				tokens.remove(i);
+				tokens.set(i - 1, operation);
+				i--;
+			}
+		}
+	}
+
+	private void addMultiplicationBrackets(List<String> tokens) {
 		if (tokens.size() == 3)
 			return;
 		for (int i = tokens.size() - 1; i > -1; i--) {
@@ -129,7 +171,7 @@ public class FunctionParser {
 	}
 
 	private boolean isOperation(char c) {
-		return c == '+' || c == '-' || c == '*' || c == '/';
+		return c == '+' || c == '-' || c == '*' || c == '/' || c == '^';
 	}
 
 	private boolean isOperation(String c) {
