@@ -6,10 +6,10 @@ import java.util.TreeMap;
 
 import com.rasbech.function.Function;
 
-public class CalculusCalculator {
+public class MathLibTest {
 	private static Scanner scanner = new Scanner(System.in);
 	
-	public CalculusCalculator() {
+	public MathLibTest() {
 //		String input = getInputString(">");
 		String input = "xy^2";
 		Function function = Function.parseFunction(input);
@@ -27,7 +27,7 @@ public class CalculusCalculator {
 	}
 	
 	public static void main(String[] args) {
-		new CalculusCalculator();
+		new MathLibTest();
 	}
 	
 	public static String getInputString(String prompt) {
