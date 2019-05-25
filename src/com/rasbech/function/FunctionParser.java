@@ -1,4 +1,4 @@
-package com.rasbech;
+package com.rasbech.function;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,29 +11,30 @@ import com.rasbech.operations.Operation;
 import com.rasbech.operations.PlusOperation;
 import com.rasbech.util.SignComparator;
 
-public class Function {
-	private OperationalTree functionTree;
-
-	// TODO: Check if function has correct syntax
-	// TODO: Make () work properly:
-	// TODO: (5x+8)/x^2
-	// (200x+9x^2)/(2x^3+3)
-	private Function(OperationalTree functionalTree) {
-		this.functionTree = functionalTree;
+public class FunctionParser {
+	private List<String> tokens;
+	private String function;
+	
+	private FunctionParser(String function) {
+		this.function = function;
+		this.tokens = getTokens();
 	}
-
-	public double evaluate(double variable) {
-		return functionTree.evaluate(variable);
-	}
-
-	// TODO: Clean function. Split into sub functions
-	public static Function parseFunction(String function) {
-		List<String> tokens = getTokens(function);
-		Operation operation = getOperations(tokens);
+	
+	private Function parse() {
+		Operation operation = getOperations();
 		return new Function(new OperationalTree(operation));
 	}
 
-	private static List<String> getTokens(String function) {
+	public static Function parseFunction(String function) {
+		FunctionParser fp = new FunctionParser(function);
+		return fp.parse();
+	}
+	
+	private List<String> getTokens() {
+		return getTokens(function);
+	}
+	
+	private List<String> getTokens(String function) {
 		List<String> tokens = new ArrayList<String>();
 		int bracketBalance = 0;
 		String s = "";
@@ -51,10 +52,14 @@ public class Function {
 		return tokens;
 	}
 
+	private Operation getOperations() {
+		return getOperations(tokens);
+	}
+	
 	// TODO: I did not start writing this function, but i predict a comment i might
 	// put here:
 	// TODO: Clean up
-	private static Operation getOperations(List<String> tokens) {
+	private Operation getOperations(List<String> tokens) {
 		addBrackets(tokens);
 		if (tokens.size() == 1) {
 			if (isMonomial(tokens.get(0)))
@@ -97,7 +102,7 @@ public class Function {
 		return null;
 	}
 
-	private static boolean isAllMultiplicationAndDivision(List<String> tokens) {
+	private boolean isAllMultiplicationAndDivision(List<String> tokens) {
 		for (String token : tokens)
 			if (isOperation(token))
 				if (token.equals("-") || token.equals("+"))
@@ -105,7 +110,7 @@ public class Function {
 		return true;
 	}
 
-	private static List<String> getTokensFromExpressionsList(List<String> expressions) {
+	private List<String> getTokensFromExpressionsList(List<String> expressions) {
 		List<String> tokens = new ArrayList<String>();
 		for (String s : expressions) {
 			tokens.add(s.charAt(0) + "");
@@ -118,12 +123,12 @@ public class Function {
 		return tokens;
 	}
 
-	private static boolean isMonomial(String function) {
+	private boolean isMonomial(String function) {
 		return (function.contains("+") || function.contains("-") || function.contains("*")
 				|| function.contains("/")) == false;
 	}
 
-	private static void addBrackets(List<String> tokens) {
+	private void addBrackets(List<String> tokens) {
 		if (tokens.size() == 3)
 			return;
 		for (int i = tokens.size() - 1; i > -1; i--) {
@@ -137,7 +142,7 @@ public class Function {
 		}
 	}
 
-	private static int getBracketCount(char c) {
+	private int getBracketCount(char c) {
 		if (c == '(')
 			return 1;
 		else if (c == ')')
@@ -146,7 +151,7 @@ public class Function {
 			return 0;
 	}
 
-	private static boolean isOperation(char c) {
+	private boolean isOperation(char c) {
 		return c == '+' || c == '-' || c == '*' || c == '/';
 	}
 
@@ -155,12 +160,7 @@ public class Function {
 	// c.length preferred to be 1, but higher is accepted
 	// PLEASE FIX THAT!!!!!!!!!!!!!!!!!
 	// c != null
-	private static boolean isOperation(String c) {
+	private boolean isOperation(String c) {
 		return isOperation(c.charAt(0));
-	}
-
-	@Override
-	public String toString() {
-		return functionTree.toString();
 	}
 }

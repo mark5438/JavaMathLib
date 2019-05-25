@@ -2,6 +2,8 @@ package com.rasbech;
 
 import java.util.Scanner;
 
+import com.rasbech.function.Function;
+
 public class CalculusCalculator {
 	private static Scanner scanner = new Scanner(System.in);
 	

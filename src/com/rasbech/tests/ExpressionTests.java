@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.rasbech.Expression;
+import com.rasbech.function.Expression;
 
 public class ExpressionTests {
 	@Test

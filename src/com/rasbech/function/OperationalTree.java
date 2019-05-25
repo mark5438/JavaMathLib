@@ -1,4 +1,4 @@
-package com.rasbech;
+package com.rasbech.function;
 
 import com.rasbech.operations.Operation;
 

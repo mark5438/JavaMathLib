@@ -1,4 +1,4 @@
-package com.rasbech;
+package com.rasbech.function;
 
 public class Expression {
 	private final double constant;

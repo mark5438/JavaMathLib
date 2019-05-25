@@ -1,6 +1,6 @@
 package com.rasbech.operations;
 
-import com.rasbech.Expression;
+import com.rasbech.function.Expression;
 
 /**
 * Calculus

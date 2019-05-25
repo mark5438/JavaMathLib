@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.rasbech.Function;
+import com.rasbech.function.Function;
 
 public class FunctionEvaluationTests {
 	@Test
@@ -70,5 +70,17 @@ public class FunctionEvaluationTests {
 	void quadraticPolynomials() {
 		Function f1 = Function.parseFunction("x^2+5x+25");
 		assertEquals(49, f1.evaluate(3), "Quadratic Trinomial");
+	}
+	
+	@Test
+	void squaredFunction() {
+		Function f1 = Function.parseFunction("(5x+2)^2");
+		assertEquals(729, f1.evaluate(5), "Squared function");
+	}
+	
+	@Test
+	void bracketMultiplication() {
+		Function f1 = Function.parseFunction("(6x+2)(x-4)");
+		assertEquals(-28, f1.evaluate(2), "Bracket Multiplication");
 	}
 }
