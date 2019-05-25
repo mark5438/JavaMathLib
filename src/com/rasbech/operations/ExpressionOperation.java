@@ -1,5 +1,7 @@
 package com.rasbech.operations;
 
+import java.util.Map;
+
 import com.rasbech.expression.ConstantExpression;
 import com.rasbech.expression.Expression;
 import com.rasbech.expression.VariableExpression;
@@ -27,8 +29,21 @@ public class ExpressionOperation implements Operation {
 			}
 	}
 	
+	public boolean isVariable() {
+		return expression instanceof VariableExpression;
+	}
+	
+	public Expression getExpression() {
+		return expression;
+	}
+	
 	@Override
-	public double evaluate(double variable) {
-		return expression.evaluate(variable);
+	public double evaluate(Map<Character, Double> variableValues) {
+		return expression.evaluate(variableValues);
+	}
+	
+	@Override
+	public String toString() {
+		return expression.toString();
 	}
 }
