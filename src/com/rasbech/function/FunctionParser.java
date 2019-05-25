@@ -50,6 +50,7 @@ public class FunctionParser {
 		}
 		if (s.equals("") == false)
 			tokens.add(s);
+		prepareTokens(tokens);
 		return tokens;
 	}
 
@@ -58,9 +59,6 @@ public class FunctionParser {
 	}
 
 	private Operation getOperations(List<String> tokens) {
-		System.out.println(tokens);
-		prepareTokens(tokens);
-		System.out.println(tokens);
 		if (tokens.size() == 1)
 			if (isMonomial(tokens.get(0)))
 				return new ExpressionOperation(tokens.get(0));
