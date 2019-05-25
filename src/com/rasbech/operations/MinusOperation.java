@@ -1,10 +1,6 @@
 package com.rasbech.operations;
 
 public class MinusOperation extends ActionOperation {
-	public MinusOperation() {
-		super();
-	}
-	
 	public MinusOperation(Operation leftOperation, Operation rightOperation) {
 		super(leftOperation, rightOperation);
 	}
