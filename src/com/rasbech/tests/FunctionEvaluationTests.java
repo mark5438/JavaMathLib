@@ -123,9 +123,22 @@ public class FunctionEvaluationTests {
 		assertEquals(10, f1.evaluate(getValueMapForX(0)));
 	}
 	
+	@Test
+	void multiVariableTest() {
+		Function f1 = Function.parseFunction("xy");
+		assertEquals(10, f1.evaluate(getValueMapForXAndY(2, 5)));
+	}
+	
 	private Map<Character, Double> getValueMapForX(double value){
 		Map<Character, Double> variableValues = new TreeMap<Character, Double>();
 		variableValues.put('x', value);
+		return variableValues;
+	}
+	
+	private Map<Character, Double> getValueMapForXAndY(double x, double y){
+		Map<Character, Double> variableValues = new TreeMap<Character, Double>();
+		variableValues.put('x', x);
+		variableValues.put('y', y);
 		return variableValues;
 	}
 }
