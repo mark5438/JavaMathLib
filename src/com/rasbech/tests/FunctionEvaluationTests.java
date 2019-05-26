@@ -129,6 +129,12 @@ public class FunctionEvaluationTests {
 		assertEquals(10, f1.evaluate(getValueMapForXAndY(2, 5)));
 	}
 	
+	@Test
+	void constantMultipliedToPolynomial() {
+		Function f1 = Function.parseFunction("2(x+4)");
+		assertEquals(14, f1.evaluate(getValueMapForX(3)));
+	}
+	
 	private Map<Character, Double> getValueMapForX(double value){
 		Map<Character, Double> variableValues = new TreeMap<Character, Double>();
 		variableValues.put('x', value);
