@@ -22,7 +22,7 @@ public class TokenGenerator {
 					tokens.add(s);
 				tokens.add(function.charAt(i) + "");
 				s = "";
-			} else if (i < function.length() - 1 && function.charAt(i) == ')' && function.charAt(i + 1) == '(' && bracketBalance == 0) {
+			} else if (function.charAt(i) == ')' && bracketBalance == 0) {
 				tokens.add(s + ")");
 				s = "";
 			} else {
