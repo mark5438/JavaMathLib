@@ -6,12 +6,12 @@ import java.util.List;
 public class TokenGenerator {
 	private final List<String> tokens;
 	private final String function;
-	
+
 	private TokenGenerator(String function) {
 		tokens = new ArrayList<String>();
 		this.function = function;
 	}
-	
+
 	private List<String> parse() {
 		int bracketBalance = 0;
 		String s = "";
@@ -22,6 +22,10 @@ public class TokenGenerator {
 					tokens.add(s);
 				tokens.add(function.charAt(i) + "");
 				s = "";
+			} else if (function.charAt(i) == '(' && bracketBalance == 1) {
+				if (s.equals("") == false)
+					tokens.add(s);
+				s = "(";
 			} else if (function.charAt(i) == ')' && bracketBalance == 0) {
 				tokens.add(s + ")");
 				s = "";
@@ -33,8 +37,9 @@ public class TokenGenerator {
 			tokens.add(s);
 		prepareTokens();
 		return tokens;
+
 	}
-	
+
 	public static List<String> getTokens(String function) {
 		return new TokenGenerator(function).parse();
 	}
@@ -49,11 +54,13 @@ public class TokenGenerator {
 	}
 
 	private void prepareTokens() {
+		System.out.println(tokens);
 		enforceLeadingZero();
 		addMultiplicationBracketSigns();
 		expandExpressions();
 		addPowerBrackets();
 		addMultiplicationBrackets();
+		System.out.println(tokens);
 	}
 
 	private void enforceLeadingZero() {
@@ -62,8 +69,10 @@ public class TokenGenerator {
 	}
 
 	private void addMultiplicationBracketSigns() {
-		for (int i = tokens.size() - 1; i > -1; i--) {
-			if (i > 0 && isBracketPolynomial(tokens.get(i - 1)) && isBracketPolynomial(tokens.get(i)))
+		for (int i = tokens.size() - 1; i > 0; i--) {
+			if (isBracketPolynomial(tokens.get(i - 1)) && isBracketPolynomial(tokens.get(i)))
+				tokens.add(i, "*");
+			if (isBracketPolynomial(tokens.get(i)) && isMonomial(tokens.get(i - 1)))
 				tokens.add(i, "*");
 		}
 	}
@@ -99,7 +108,7 @@ public class TokenGenerator {
 		tokens.add(expression.charAt(expression.length() - 1) + "");
 		return tokens;
 	}
-	
+
 	private void addBracketsForChar(char c) {
 		if (tokens.size() == 3)
 			return;
