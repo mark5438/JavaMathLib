@@ -33,6 +33,10 @@ public class ExpressionOperation implements Operation {
 		return expression instanceof VariableExpression;
 	}
 	
+	public boolean isNumeric() {
+		return expression instanceof ConstantExpression;
+	}
+	
 	public Expression getExpression() {
 		return expression;
 	}
@@ -45,5 +49,18 @@ public class ExpressionOperation implements Operation {
 	@Override
 	public String toString() {
 		return expression.toString();
+	}
+	
+	@Override
+	public int getOperationCount() {
+		return 1;
+	}
+	
+	@Override
+	public Operation simplify() {
+		/*
+		 * Nothing to simplify
+		 */
+		return this;
 	}
 }

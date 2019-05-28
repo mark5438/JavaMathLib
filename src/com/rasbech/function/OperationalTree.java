@@ -23,7 +23,15 @@ public class OperationalTree {
 		else
 			return ((ActionOperation) firstOperation).getBottomOperations();
 	}
+	
+	public int getOperationCount() {
+		return firstOperation.getOperationCount();
+	}
 
+	public void simplify() {
+		firstOperation = firstOperation.simplify();
+	}
+	
 	// TODO: Make tree into function string
 	@Override
 	public String toString() {

@@ -5,6 +5,8 @@ import java.util.List;
 
 public abstract class ActionOperation implements Operation {
 	protected Operation leftOperation, rightOperation;
+	
+	public abstract void multiply(ExpressionOperation operation);
 
 	public ActionOperation(Operation leftOperation, Operation rightOperation) {
 		this.leftOperation = leftOperation;
@@ -50,5 +52,10 @@ public abstract class ActionOperation implements Operation {
 		else
 			operations.addAll(((ActionOperation) rightOperation).getBottomOperationsAsList());
 		return operations;
+	}
+	
+	@Override
+	public int getOperationCount() {
+		return leftOperation.getOperationCount() + rightOperation.getOperationCount();
 	}
 }
