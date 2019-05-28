@@ -19,7 +19,7 @@ public class MultiplicationOperation extends ActionOperation {
 
 	@Override
 	public Operation simplifyOperation() {
-		if(leftOperation instanceof PowerOperation || rightOperation instanceof PowerOperation)
+		if (leftOperation instanceof PowerOperation || rightOperation instanceof PowerOperation)
 			return this;
 		if (leftOperation instanceof ExpressionOperation && rightOperation instanceof ActionOperation) {
 			((ActionOperation) rightOperation).multiply((ExpressionOperation) leftOperation);
@@ -29,13 +29,9 @@ public class MultiplicationOperation extends ActionOperation {
 			((ActionOperation) leftOperation).multiply((ExpressionOperation) rightOperation);
 			return leftOperation.simplify();
 		}
-		if (leftOperation instanceof ExpressionOperation && rightOperation instanceof ExpressionOperation) {
-			if (((ExpressionOperation) leftOperation).isNumeric()
-					&& ((ExpressionOperation) rightOperation).isNumeric()) {
-				double value = Double.parseDouble(leftOperation.toString())
-						* Double.parseDouble(rightOperation.toString());
-				return new ExpressionOperation(String.valueOf(value));
-			}
+		if (bothNumericExpressionOperations()) {
+			double value = Double.parseDouble(leftOperation.toString()) * Double.parseDouble(rightOperation.toString());
+			return new ExpressionOperation(String.valueOf(value));
 		}
 		return this;
 	}

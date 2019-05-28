@@ -7,7 +7,7 @@ import com.rasbech.function.Function;
 
 public class MathLibTest {
 	public static void main(String[] args) {
-		Function f = Function.parseFunction("6(3^2+x^2+2x+4)");
+		Function f = Function.parseFunction("");
 		f.simplify();
 		System.out.println(f);
 	}

@@ -17,7 +17,7 @@ public abstract class ActionOperation implements Operation {
 	@Override
 	public Operation simplify() {
 		leftOperation = leftOperation.simplify();
-		rightOperation.simplify();
+		rightOperation = rightOperation.simplify();
 		return simplifyOperation();
 	}
 
@@ -65,5 +65,17 @@ public abstract class ActionOperation implements Operation {
 	@Override
 	public int getOperationCount() {
 		return leftOperation.getOperationCount() + rightOperation.getOperationCount();
+	}
+
+	protected boolean bothNumericExpressionOperations() {
+		return bothExpressionOperations() && bothNumeric();
+	}
+
+	protected boolean bothNumeric() {
+		return ((ExpressionOperation) leftOperation).isNumeric() && ((ExpressionOperation) rightOperation).isNumeric();
+	}
+
+	protected boolean bothExpressionOperations() {
+		return leftOperation instanceof ExpressionOperation && rightOperation instanceof ExpressionOperation;
 	}
 }

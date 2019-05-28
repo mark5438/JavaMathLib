@@ -3,10 +3,14 @@ package com.rasbech.expression;
 import java.util.Map;
 
 public class ConstantExpression implements Expression {
-	private final double value;
+	private double value;
 
 	public ConstantExpression(double value) {
 		this.value = value;
+	}
+	
+	public void add(double value) {
+		this.value += value;
 	}
 
 	@Override

@@ -19,13 +19,9 @@ public class PlusOperation extends ActionOperation {
 
 	@Override
 	public Operation simplifyOperation() {
-		if (leftOperation instanceof ExpressionOperation && rightOperation instanceof ExpressionOperation) {
-			if (((ExpressionOperation) leftOperation).isNumeric()
-					&& ((ExpressionOperation) rightOperation).isNumeric()) {
-				double value = Double.parseDouble(leftOperation.toString())
-						+ Double.parseDouble(rightOperation.toString());
-				return new ExpressionOperation(String.valueOf(value));
-			}
+		if (bothNumericExpressionOperations()) {
+			double value = Double.parseDouble(leftOperation.toString()) + Double.parseDouble(rightOperation.toString());
+			return new ExpressionOperation(String.valueOf(value));
 		}
 		return this;
 	}
