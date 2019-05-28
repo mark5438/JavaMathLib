@@ -21,4 +21,9 @@ public class PowerOperation extends ActionOperation {
 	public Operation simplify() {
 		return null;
 	}
+
+	@Override
+	public void multiply(ExpressionOperation operation) {
+		leftOperation = new MultiplicationOperation(leftOperation, operation);
+	}
 }
