@@ -21,11 +21,11 @@ public class MultiplicationOperation extends ActionOperation {
 	public Operation simplifyOperation() {
 		if (leftOperation instanceof PowerOperation || rightOperation instanceof PowerOperation)
 			return this;
-		if (leftOperation instanceof ExpressionOperation && rightOperation instanceof ActionOperation) {
+		if (leftOperation.isExpressionOperation() && rightOperation.isActionOperation()) {
 			((ActionOperation) rightOperation).multiply((ExpressionOperation) leftOperation);
 			return rightOperation.simplify();
 		}
-		if (rightOperation instanceof ExpressionOperation && leftOperation instanceof ActionOperation) {
+		if (rightOperation.isExpressionOperation() && leftOperation.isActionOperation()) {
 			((ActionOperation) leftOperation).multiply((ExpressionOperation) rightOperation);
 			return leftOperation.simplify();
 		}
