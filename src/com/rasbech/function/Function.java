@@ -42,6 +42,10 @@ public class Function {
 		return functionTree.getOperationCount();
 	}
 	
+	public void simplify() {
+		functionTree.simplify();
+	}
+	
 	@Override
 	public String toString() {
 		return functionTree.toString();

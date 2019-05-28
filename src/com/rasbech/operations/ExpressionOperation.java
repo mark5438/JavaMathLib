@@ -51,4 +51,12 @@ public class ExpressionOperation implements Operation {
 	public int getOperationCount() {
 		return 1;
 	}
+	
+	@Override
+	public Operation simplify() {
+		/*
+		 * Nothing to simplify
+		 */
+		return this;
+	}
 }

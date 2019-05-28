@@ -16,4 +16,9 @@ public class PlusOperation extends ActionOperation {
 	public String toString() {
 		return leftOperation + "+" + rightOperation;
 	}
+
+	@Override
+	public Operation simplify() {
+		return null;
+	}
 }

@@ -28,6 +28,10 @@ public class OperationalTree {
 		return firstOperation.getOperationCount();
 	}
 
+	public void simplify() {
+		firstOperation = firstOperation.simplify();
+	}
+	
 	// TODO: Make tree into function string
 	@Override
 	public String toString() {
