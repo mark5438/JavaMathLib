@@ -18,6 +18,10 @@ public interface Operation {
 	 */
 	public Operation simplify();
 	
+	public default boolean isActionOperation () {
+		return this instanceof ActionOperation;
+	}
+	
 	public default boolean isNumeric() {
 		return isExpressionOperation() && ((ExpressionOperation)this).isNumeric();
 	}
