@@ -68,14 +68,6 @@ public abstract class ActionOperation implements Operation {
 	}
 
 	protected boolean bothNumericExpressionOperations() {
-		return bothExpressionOperations() && bothNumeric();
-	}
-
-	protected boolean bothNumeric() {
-		return ((ExpressionOperation) leftOperation).isNumeric() && ((ExpressionOperation) rightOperation).isNumeric();
-	}
-
-	protected boolean bothExpressionOperations() {
-		return leftOperation instanceof ExpressionOperation && rightOperation instanceof ExpressionOperation;
+		return leftOperation.isNumeric() && rightOperation.isNumeric();
 	}
 }

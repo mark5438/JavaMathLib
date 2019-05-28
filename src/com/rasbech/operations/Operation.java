@@ -17,4 +17,12 @@ public interface Operation {
 	 * @return Simplified operation
 	 */
 	public Operation simplify();
+	
+	public default boolean isNumeric() {
+		return isExpressionOperation() && ((ExpressionOperation)this).isNumeric();
+	}
+	
+	public default boolean isExpressionOperation() {
+		return this instanceof ExpressionOperation;
+	}
 }
