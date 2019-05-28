@@ -41,6 +41,11 @@ public class ExpressionOperation implements Operation {
 		return expression;
 	}
 	
+	public void add(double value) {
+		if(isNumeric())
+			((ConstantExpression) expression).add(value);
+	}
+	
 	@Override
 	public double evaluate(Map<Character, Double> variableValues) {
 		return expression.evaluate(variableValues);
