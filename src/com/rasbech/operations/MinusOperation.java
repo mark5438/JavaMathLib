@@ -24,7 +24,7 @@ public class MinusOperation extends ActionOperation {
 	
 	@Override
 	public void multiply(ExpressionOperation operation) {
-		leftOperation = new MultiplicationOperation(leftOperation, operation);
-		rightOperation = new MultiplicationOperation(rightOperation, operation);
+		leftOperation = new MultiplicationOperation(leftOperation, operation).simplify();
+		rightOperation = new MultiplicationOperation(rightOperation, operation).simplify();
 	}
 }

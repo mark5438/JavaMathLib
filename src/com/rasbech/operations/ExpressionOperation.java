@@ -33,6 +33,10 @@ public class ExpressionOperation implements Operation {
 		return expression instanceof VariableExpression;
 	}
 	
+	public boolean isNumeric() {
+		return expression instanceof ConstantExpression;
+	}
+	
 	public Expression getExpression() {
 		return expression;
 	}

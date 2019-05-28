@@ -24,6 +24,6 @@ public class DivisionOperation extends ActionOperation {
 
 	@Override
 	public void multiply(ExpressionOperation operation) {
-		leftOperation = new MultiplicationOperation(leftOperation, operation);
+		leftOperation = new MultiplicationOperation(leftOperation, operation).simplify();
 	}
 }
