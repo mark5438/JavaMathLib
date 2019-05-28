@@ -54,13 +54,11 @@ public class TokenGenerator {
 	}
 
 	private void prepareTokens() {
-		System.out.println(tokens);
 		enforceLeadingZero();
 		addMultiplicationBracketSigns();
 		expandExpressions();
 		addPowerBrackets();
 		addMultiplicationBrackets();
-		System.out.println(tokens);
 	}
 
 	private void enforceLeadingZero() {
