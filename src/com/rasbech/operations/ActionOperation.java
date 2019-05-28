@@ -6,11 +6,19 @@ import java.util.List;
 public abstract class ActionOperation implements Operation {
 	protected Operation leftOperation, rightOperation;
 	
-	public abstract void multiply(ExpressionOperation operation);
+	public abstract void multiply(Operation operation);
+	public abstract Operation simplifyOperation();
 
 	public ActionOperation(Operation leftOperation, Operation rightOperation) {
 		this.leftOperation = leftOperation;
 		this.rightOperation = rightOperation;
+	}
+	
+	@Override
+	public Operation simplify() {
+		leftOperation = leftOperation.simplify();
+		rightOperation.simplify();
+		return simplifyOperation();
 	}
 
 	public static ActionOperation getOperationForSign(char sign, Operation left, Operation right) {

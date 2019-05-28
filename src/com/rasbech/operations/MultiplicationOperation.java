@@ -18,7 +18,9 @@ public class MultiplicationOperation extends ActionOperation {
 	}
 
 	@Override
-	public Operation simplify() {
+	public Operation simplifyOperation() {
+		if(leftOperation instanceof PowerOperation || rightOperation instanceof PowerOperation)
+			return this;
 		if (leftOperation instanceof ExpressionOperation && rightOperation instanceof ActionOperation) {
 			((ActionOperation) rightOperation).multiply((ExpressionOperation) leftOperation);
 			return rightOperation.simplify();
@@ -39,7 +41,7 @@ public class MultiplicationOperation extends ActionOperation {
 	}
 
 	@Override
-	public void multiply(ExpressionOperation operation) {
+	public void multiply(Operation operation) {
 		leftOperation = new MultiplicationOperation(leftOperation, operation).simplify();
 	}
 }
