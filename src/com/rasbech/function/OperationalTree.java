@@ -23,6 +23,10 @@ public class OperationalTree {
 		else
 			return ((ActionOperation) firstOperation).getBottomOperations();
 	}
+	
+	public int getOperationCount() {
+		return firstOperation.getOperationCount();
+	}
 
 	// TODO: Make tree into function string
 	@Override

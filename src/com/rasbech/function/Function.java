@@ -38,6 +38,10 @@ public class Function {
 		return out;
 	}
 
+	public int getOperationCount() {
+		return functionTree.getOperationCount();
+	}
+	
 	@Override
 	public String toString() {
 		return functionTree.toString();

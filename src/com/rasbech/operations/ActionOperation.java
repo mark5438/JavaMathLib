@@ -51,4 +51,9 @@ public abstract class ActionOperation implements Operation {
 			operations.addAll(((ActionOperation) rightOperation).getBottomOperationsAsList());
 		return operations;
 	}
+	
+	@Override
+	public int getOperationCount() {
+		return leftOperation.getOperationCount() + rightOperation.getOperationCount();
+	}
 }

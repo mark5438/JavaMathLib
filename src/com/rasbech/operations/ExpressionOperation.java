@@ -46,4 +46,9 @@ public class ExpressionOperation implements Operation {
 	public String toString() {
 		return expression.toString();
 	}
+	
+	@Override
+	public int getOperationCount() {
+		return 1;
+	}
 }
