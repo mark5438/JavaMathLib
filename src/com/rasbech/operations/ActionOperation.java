@@ -5,10 +5,21 @@ import java.util.List;
 
 public abstract class ActionOperation implements Operation {
 	protected Operation leftOperation, rightOperation;
+	
+	public abstract void multiply(Operation operation);
+	public abstract Operation simplifyOperation();
 
 	public ActionOperation(Operation leftOperation, Operation rightOperation) {
 		this.leftOperation = leftOperation;
 		this.rightOperation = rightOperation;
+	}
+	
+	@Override
+	public Operation simplify() {
+		System.out.println(this);
+		leftOperation = leftOperation.simplify();
+		rightOperation = rightOperation.simplify();
+		return simplifyOperation();
 	}
 
 	public static ActionOperation getOperationForSign(char sign, Operation left, Operation right) {
@@ -50,5 +61,14 @@ public abstract class ActionOperation implements Operation {
 		else
 			operations.addAll(((ActionOperation) rightOperation).getBottomOperationsAsList());
 		return operations;
+	}
+	
+	@Override
+	public int getOperationCount() {
+		return leftOperation.getOperationCount() + rightOperation.getOperationCount();
+	}
+
+	protected boolean bothNumericExpressionOperations() {
+		return leftOperation.isNumeric() && rightOperation.isNumeric();
 	}
 }

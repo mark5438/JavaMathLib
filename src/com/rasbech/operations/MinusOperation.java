@@ -16,4 +16,19 @@ public class MinusOperation extends ActionOperation {
 	public String toString() {
 		return leftOperation.toString() + "-" + rightOperation.toString();
 	}
+
+	@Override
+	public Operation simplifyOperation() {
+		if(bothNumericExpressionOperations()) {
+			double value = Double.parseDouble(leftOperation.toString()) - Double.parseDouble(rightOperation.toString());
+			return new ExpressionOperation(String.valueOf(value));			
+		}
+		return this;
+	}
+	
+	@Override
+	public void multiply(Operation operation) {
+		leftOperation = new MultiplicationOperation(leftOperation, operation).simplify();
+		rightOperation = new MultiplicationOperation(rightOperation, operation).simplify();
+	}
 }
