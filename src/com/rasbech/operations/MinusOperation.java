@@ -19,7 +19,11 @@ public class MinusOperation extends ActionOperation {
 
 	@Override
 	public Operation simplifyOperation() {
-		return this;		
+		if(bothNumericExpressionOperations()) {
+			double value = Double.parseDouble(leftOperation.toString()) - Double.parseDouble(rightOperation.toString());
+			return new ExpressionOperation(String.valueOf(value));			
+		}
+		return this;
 	}
 	
 	@Override

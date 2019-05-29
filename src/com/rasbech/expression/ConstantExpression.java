@@ -12,6 +12,10 @@ public class ConstantExpression implements Expression {
 	public void add(double value) {
 		this.value += value;
 	}
+	
+	public void multiply(double value) {
+		this.value *= value;
+	}
 
 	@Override
 	public double evaluate(Map<Character, Double> variableValues) {

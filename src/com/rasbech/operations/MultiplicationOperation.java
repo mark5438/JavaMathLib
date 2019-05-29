@@ -19,6 +19,14 @@ public class MultiplicationOperation extends ActionOperation {
 
 	@Override
 	public Operation simplifyOperation() {
+		if(leftOperation.isNumeric() && rightOperation.isMultiplicationOperation()) {
+			if(((MultiplicationOperation)rightOperation).multiplyConstant(Double.parseDouble(leftOperation.toString())))
+				return rightOperation;
+		}
+		if(rightOperation.isNumeric() && leftOperation.isMultiplicationOperation()) {
+			if(((MultiplicationOperation)leftOperation).multiplyConstant(Double.parseDouble(rightOperation.toString())))
+				return leftOperation;			
+		}
 		if (leftOperation instanceof PowerOperation || rightOperation instanceof PowerOperation)
 			return this;
 		if (leftOperation.isExpressionOperation() && rightOperation.isActionOperation()) {
@@ -34,6 +42,22 @@ public class MultiplicationOperation extends ActionOperation {
 			return new ExpressionOperation(String.valueOf(value));
 		}
 		return this;
+	}
+
+	private boolean multiplyConstant(double constant) {
+		if (leftOperation.isNumeric()) {
+			((ExpressionOperation) leftOperation).multiply(constant);
+			return true;
+		} else if (rightOperation.isNumeric()) {
+			((ExpressionOperation) rightOperation).multiply(constant);
+			return true;
+		} else if (rightOperation.isMultiplicationOperation()) {
+			return ((MultiplicationOperation) rightOperation).multiplyConstant(constant);
+		} else if (leftOperation.isMultiplicationOperation()) {
+			return ((MultiplicationOperation) leftOperation).multiplyConstant(constant);
+		}
+
+		return false;
 	}
 
 	@Override
