@@ -21,7 +21,8 @@ public class DivisionOperation extends ActionOperation {
 	public Operation simplifyOperation() {
 		if(bothNumericExpressionOperations()) {
 			double value = Double.parseDouble(leftOperation.toString()) / Double.parseDouble(rightOperation.toString());
-			return new ExpressionOperation(String.valueOf(value));
+			if((value * 100) % 1 == 0)
+				return new ExpressionOperation(String.valueOf(value));
 		}
 		return this;
 	}

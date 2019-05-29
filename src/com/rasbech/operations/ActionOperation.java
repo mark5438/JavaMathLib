@@ -16,7 +16,6 @@ public abstract class ActionOperation implements Operation {
 	
 	@Override
 	public Operation simplify() {
-		System.out.println(this);
 		leftOperation = leftOperation.simplify();
 		rightOperation = rightOperation.simplify();
 		return simplifyOperation();
