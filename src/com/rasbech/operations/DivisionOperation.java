@@ -18,12 +18,16 @@ public class DivisionOperation extends ActionOperation {
 	}
 
 	@Override
-	public Operation simplify() {
-		return null;
+	public Operation simplifyOperation() {
+		if(bothNumericExpressionOperations()) {
+			double value = Double.parseDouble(leftOperation.toString()) / Double.parseDouble(rightOperation.toString());
+			return new ExpressionOperation(String.valueOf(value));
+		}
+		return this;
 	}
 
 	@Override
-	public void multiply(ExpressionOperation operation) {
+	public void multiply(Operation operation) {
 		leftOperation = new MultiplicationOperation(leftOperation, operation).simplify();
 	}
 }
