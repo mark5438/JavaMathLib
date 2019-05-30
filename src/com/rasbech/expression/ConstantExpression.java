@@ -28,6 +28,8 @@ public class ConstantExpression implements Expression {
 
 	@Override
 	public String toString() {
+		if(value % 1 == 0)
+			return String.valueOf((int) value);
 		return String.valueOf(value);
 	}
 

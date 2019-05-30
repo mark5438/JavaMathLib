@@ -14,6 +14,8 @@ public class MultiplicationOperation extends ActionOperation {
 
 	@Override
 	public String toString() {
+		if(bothExpressionOperations())
+			return leftOperation.toString() + rightOperation.toString();
 		return leftOperation.toString() + "*" + rightOperation.toString();
 	}
 
