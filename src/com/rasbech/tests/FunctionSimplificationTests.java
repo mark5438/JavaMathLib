@@ -17,8 +17,8 @@ public class FunctionSimplificationTests {
 		f2.simplify();
 		f3.simplify();
 		
-		assertEquals("2.0", f1.toString(), "Simple division simplification");
-		assertEquals("1.0/3.0", f2.toString(), "Should not divide!");
-		assertEquals("x*2", f3.toString(), "Divide constant in front of variable");
+		assertEquals("2", f1.toString(), "Simple division simplification");
+		assertEquals("1/3", f2.toString(), "Should not divide!");
+		assertEquals("x2", f3.toString(), "Divide constant in front of variable");
 	}
 }
