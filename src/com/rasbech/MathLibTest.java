@@ -3,13 +3,13 @@ package com.rasbech;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.rasbech.function.Function;
+import com.rasbech.equation.Equation;
 
 public class MathLibTest {
 	public static void main(String[] args) {
-		Function f = Function.parseFunction("(5*2x)/2");
-		f.simplify();
-		System.out.println(f);
+		Equation e = new Equation("4=8x/2");
+		System.out.println(e);
+		System.out.println(e.solve('x'));
 	}
 	
 	private static Map<Character, Double> getValueMapForX(double value){
