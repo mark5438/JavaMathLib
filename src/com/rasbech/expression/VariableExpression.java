@@ -22,4 +22,9 @@ public class VariableExpression implements Expression {
 	public String toString() {
 		return variable + "";
 	}
+
+	@Override
+	public boolean isOne() {
+		return false;
+	}
 }

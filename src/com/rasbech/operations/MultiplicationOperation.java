@@ -19,16 +19,21 @@ public class MultiplicationOperation extends ActionOperation {
 
 	@Override
 	public Operation simplifyOperation() {
-		if(leftOperation.isNumeric() && rightOperation.isMultiplicationOperation()) {
-			if(((MultiplicationOperation)rightOperation).multiplyConstant(Double.parseDouble(leftOperation.toString())))
-				return rightOperation;
-		}
-		if(rightOperation.isNumeric() && leftOperation.isMultiplicationOperation()) {
-			if(((MultiplicationOperation)leftOperation).multiplyConstant(Double.parseDouble(rightOperation.toString())))
-				return leftOperation;			
-		}
+		if(leftOperation.isOne())
+			return rightOperation;
+		if(rightOperation.isOne())
+			return leftOperation;
 		if (leftOperation instanceof PowerOperation || rightOperation instanceof PowerOperation)
 			return this;
+		if (leftOperation.isNumeric() && rightOperation.isMultiplicationOperation()) {
+			if (((ActionOperation) rightOperation).multiplyConstant(Double.parseDouble(leftOperation.toString())))
+				return rightOperation;
+		}
+		if (rightOperation.isNumeric() && leftOperation.isMultiplicationOperation()) {
+			if (((MultiplicationOperation) leftOperation)
+					.multiplyConstant(Double.parseDouble(rightOperation.toString())))
+				return leftOperation;
+		}
 		if (leftOperation.isExpressionOperation() && rightOperation.isActionOperation()) {
 			((ActionOperation) rightOperation).multiply((ExpressionOperation) leftOperation);
 			return rightOperation.simplify();
@@ -46,18 +51,14 @@ public class MultiplicationOperation extends ActionOperation {
 
 	@Override
 	public boolean multiplyConstant(double constant) {
-		if (leftOperation.isNumeric()) {
-			((ExpressionOperation) leftOperation).multiply(constant);
+		if(attemptMultiplyConstant(constant, leftOperation) || attemptMultiplyConstant(constant, rightOperation))
 			return true;
-		} else if (rightOperation.isNumeric()) {
-			((ExpressionOperation) rightOperation).multiply(constant);
-			return true;
-		} else if (rightOperation.isMultiplicationOperation()) {
+		if (rightOperation.isMultiplicationOperation() || rightOperation.isDivisionOperation()) {
 			return ((MultiplicationOperation) rightOperation).multiplyConstant(constant);
-		} else if (leftOperation.isMultiplicationOperation()) {
+		}
+		if (leftOperation.isMultiplicationOperation() || rightOperation.isDivisionOperation()) {
 			return ((MultiplicationOperation) leftOperation).multiplyConstant(constant);
 		}
-
 		return false;
 	}
 
@@ -68,13 +69,19 @@ public class MultiplicationOperation extends ActionOperation {
 
 	@Override
 	public boolean addConstant(double constant) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean divideConstant(double constant) {
-		// TODO Auto-generated method stub
+		if (attemptDivideConstant(constant, leftOperation) || attemptDivideConstant(constant, rightOperation))
+			return true;
+		if (rightOperation.isMultiplicationOperation()) {
+			return ((MultiplicationOperation) rightOperation).divideConstant(constant);
+		}
+		if (leftOperation.isMultiplicationOperation()) {
+			return ((MultiplicationOperation) leftOperation).divideConstant(constant);
+		}
 		return false;
 	}
 

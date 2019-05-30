@@ -74,4 +74,25 @@ public abstract class ActionOperation implements Operation {
 	protected boolean bothNumericExpressionOperations() {
 		return leftOperation.isNumeric() && rightOperation.isNumeric();
 	}
+	
+	protected static boolean attemptDivideConstant(double constant, Operation operation) {
+		if(operation.isNumeric()) {
+			((ExpressionOperation) operation).divide(constant);
+			return true;
+		}
+		return false;
+	}
+	
+	protected static boolean attemptMultiplyConstant(double constant, Operation operation) {
+		if(operation.isNumeric()) {
+			((ExpressionOperation) operation).multiply(constant);
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean isOne() {
+		return false;
+	}
 }

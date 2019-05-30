@@ -51,6 +51,16 @@ public class ExpressionOperation implements Operation {
 			((ConstantExpression) expression).multiply(value);
 	}
 	
+	public void divide(double value) {
+		if(isNumeric())
+			((ConstantExpression) expression).divide(value);
+	}
+	
+	@Override
+	public boolean isOne() {
+		return expression.isOne();
+	}
+	
 	@Override
 	public double evaluate(Map<Character, Double> variableValues) {
 		return expression.evaluate(variableValues);

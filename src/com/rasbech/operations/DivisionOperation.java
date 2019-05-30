@@ -22,7 +22,12 @@ public class DivisionOperation extends ActionOperation {
 		if(bothNumericExpressionOperations()) {
 			double value = Double.parseDouble(leftOperation.toString()) / Double.parseDouble(rightOperation.toString());
 			if((value * 100) % 1 == 0)
-				return new ExpressionOperation(String.valueOf(value));
+				return new ExpressionOperation(String.valueOf(value)).simplify();
+		}
+		if(leftOperation.isActionOperation() && rightOperation.isNumeric()) {
+			double constant = Double.parseDouble(rightOperation.toString());
+			if(((ActionOperation)leftOperation).divideConstant(constant))
+				return leftOperation.simplify();
 		}
 		return this;
 	}
