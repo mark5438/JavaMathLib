@@ -31,4 +31,24 @@ public class DivisionOperation extends ActionOperation {
 	public void multiply(Operation operation) {
 		leftOperation = new MultiplicationOperation(leftOperation, operation).simplify();
 	}
+
+	@Override
+	public boolean multiplyConstant(double constant) {
+		return false;
+	}
+
+	@Override
+	public boolean addConstant(double constant) {
+		return false;
+	}
+
+	@Override
+	public boolean divideConstant(double constant) {
+		return false;
+	}
+
+	@Override
+	public boolean subtractConstant(double constant) {
+		return false;
+	}
 }

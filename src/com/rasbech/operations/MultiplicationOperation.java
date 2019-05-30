@@ -44,7 +44,8 @@ public class MultiplicationOperation extends ActionOperation {
 		return this;
 	}
 
-	private boolean multiplyConstant(double constant) {
+	@Override
+	public boolean multiplyConstant(double constant) {
 		if (leftOperation.isNumeric()) {
 			((ExpressionOperation) leftOperation).multiply(constant);
 			return true;
@@ -63,5 +64,22 @@ public class MultiplicationOperation extends ActionOperation {
 	@Override
 	public void multiply(Operation operation) {
 		leftOperation = new MultiplicationOperation(leftOperation, operation).simplify();
+	}
+
+	@Override
+	public boolean addConstant(double constant) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean divideConstant(double constant) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean subtractConstant(double constant) {
+		return false;
 	}
 }

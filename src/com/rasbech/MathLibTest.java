@@ -7,7 +7,7 @@ import com.rasbech.function.Function;
 
 public class MathLibTest {
 	public static void main(String[] args) {
-		Function f = Function.parseFunction("1/5");
+		Function f = Function.parseFunction("4x/2");
 		f.simplify();
 		System.out.println(f);
 	}

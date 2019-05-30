@@ -8,7 +8,11 @@ public abstract class ActionOperation implements Operation {
 	
 	public abstract void multiply(Operation operation);
 	public abstract Operation simplifyOperation();
-
+	public abstract boolean multiplyConstant(double constant);
+	public abstract boolean addConstant(double constant);
+	public abstract boolean divideConstant(double constant);
+	public abstract boolean subtractConstant(double constant);
+	
 	public ActionOperation(Operation leftOperation, Operation rightOperation) {
 		this.leftOperation = leftOperation;
 		this.rightOperation = rightOperation;

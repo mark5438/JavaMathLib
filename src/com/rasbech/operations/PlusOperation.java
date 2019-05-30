@@ -40,7 +40,7 @@ public class PlusOperation extends ActionOperation {
 		return this;
 	}
 
-	private boolean addConstant(double constant) {
+	public boolean addConstant(double constant) {
 		if (leftOperation.isNumeric()) {
 			((ExpressionOperation) leftOperation).add(constant);
 			return true;
@@ -60,5 +60,20 @@ public class PlusOperation extends ActionOperation {
 	public void multiply(Operation operation) {
 		leftOperation = new MultiplicationOperation(leftOperation, operation).simplify();
 		rightOperation = new MultiplicationOperation(rightOperation, operation).simplify();
+	}
+
+	@Override
+	public boolean divideConstant(double constant) {
+		return false;
+	}
+
+	@Override
+	public boolean subtractConstant(double constant) {
+		return false;
+	}
+
+	@Override
+	public boolean multiplyConstant(double constant) {
+		return false;
 	}
 }

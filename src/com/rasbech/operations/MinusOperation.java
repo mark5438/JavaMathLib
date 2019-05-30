@@ -31,4 +31,24 @@ public class MinusOperation extends ActionOperation {
 		leftOperation = new MultiplicationOperation(leftOperation, operation).simplify();
 		rightOperation = new MultiplicationOperation(rightOperation, operation).simplify();
 	}
+
+	@Override
+	public boolean multiplyConstant(double constant) {
+		return false;
+	}
+
+	@Override
+	public boolean addConstant(double constant) {
+		return false;
+	}
+
+	@Override
+	public boolean divideConstant(double constant) {
+		return false;
+	}
+
+	@Override
+	public boolean subtractConstant(double constant) {
+		return false;
+	}
 }
