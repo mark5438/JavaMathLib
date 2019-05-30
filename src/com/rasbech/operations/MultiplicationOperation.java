@@ -14,21 +14,28 @@ public class MultiplicationOperation extends ActionOperation {
 
 	@Override
 	public String toString() {
+		if(bothExpressionOperations())
+			return leftOperation.toString() + rightOperation.toString();
 		return leftOperation.toString() + "*" + rightOperation.toString();
 	}
 
 	@Override
 	public Operation simplifyOperation() {
-		if(leftOperation.isNumeric() && rightOperation.isMultiplicationOperation()) {
-			if(((MultiplicationOperation)rightOperation).multiplyConstant(Double.parseDouble(leftOperation.toString())))
-				return rightOperation;
-		}
-		if(rightOperation.isNumeric() && leftOperation.isMultiplicationOperation()) {
-			if(((MultiplicationOperation)leftOperation).multiplyConstant(Double.parseDouble(rightOperation.toString())))
-				return leftOperation;			
-		}
+		if(leftOperation.isOne())
+			return rightOperation;
+		if(rightOperation.isOne())
+			return leftOperation;
 		if (leftOperation instanceof PowerOperation || rightOperation instanceof PowerOperation)
 			return this;
+		if (leftOperation.isNumeric() && rightOperation.isMultiplicationOperation()) {
+			if (((ActionOperation) rightOperation).multiplyConstant(Double.parseDouble(leftOperation.toString())))
+				return rightOperation;
+		}
+		if (rightOperation.isNumeric() && leftOperation.isMultiplicationOperation()) {
+			if (((MultiplicationOperation) leftOperation)
+					.multiplyConstant(Double.parseDouble(rightOperation.toString())))
+				return leftOperation;
+		}
 		if (leftOperation.isExpressionOperation() && rightOperation.isActionOperation()) {
 			((ActionOperation) rightOperation).multiply((ExpressionOperation) leftOperation);
 			return rightOperation.simplify();
@@ -44,24 +51,44 @@ public class MultiplicationOperation extends ActionOperation {
 		return this;
 	}
 
-	private boolean multiplyConstant(double constant) {
-		if (leftOperation.isNumeric()) {
-			((ExpressionOperation) leftOperation).multiply(constant);
+	@Override
+	public boolean multiplyConstant(double constant) {
+		if(attemptMultiplyConstant(constant, leftOperation) || attemptMultiplyConstant(constant, rightOperation))
 			return true;
-		} else if (rightOperation.isNumeric()) {
-			((ExpressionOperation) rightOperation).multiply(constant);
-			return true;
-		} else if (rightOperation.isMultiplicationOperation()) {
-			return ((MultiplicationOperation) rightOperation).multiplyConstant(constant);
-		} else if (leftOperation.isMultiplicationOperation()) {
-			return ((MultiplicationOperation) leftOperation).multiplyConstant(constant);
+		if (rightOperation.isActionOperation()) {
+			return ((ActionOperation) rightOperation).multiplyConstant(constant);
 		}
-
+		if (leftOperation.isActionOperation()) {
+			return ((ActionOperation) leftOperation).multiplyConstant(constant);
+		}
 		return false;
 	}
 
 	@Override
 	public void multiply(Operation operation) {
 		leftOperation = new MultiplicationOperation(leftOperation, operation).simplify();
+	}
+
+	@Override
+	public boolean addConstant(double constant) {
+		return false;
+	}
+
+	@Override
+	public boolean divideConstant(double constant) {
+		if (attemptDivideConstant(constant, leftOperation) || attemptDivideConstant(constant, rightOperation))
+			return true;
+		if (rightOperation.isMultiplicationOperation()) {
+			return ((MultiplicationOperation) rightOperation).divideConstant(constant);
+		}
+		if (leftOperation.isMultiplicationOperation()) {
+			return ((MultiplicationOperation) leftOperation).divideConstant(constant);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean subtractConstant(double constant) {
+		return false;
 	}
 }

@@ -18,6 +18,8 @@ public interface Operation {
 	 */
 	public Operation simplify();
 	
+	public boolean isOne();
+	
 	public default boolean isActionOperation () {
 		return this instanceof ActionOperation;
 	}

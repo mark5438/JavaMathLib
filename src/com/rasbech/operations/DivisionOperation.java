@@ -21,7 +21,13 @@ public class DivisionOperation extends ActionOperation {
 	public Operation simplifyOperation() {
 		if(bothNumericExpressionOperations()) {
 			double value = Double.parseDouble(leftOperation.toString()) / Double.parseDouble(rightOperation.toString());
-			return new ExpressionOperation(String.valueOf(value));
+			if((value * 100) % 1 == 0)
+				return new ExpressionOperation(String.valueOf(value)).simplify();
+		}
+		if(leftOperation.isActionOperation() && rightOperation.isNumeric()) {
+			double constant = Double.parseDouble(rightOperation.toString());
+			if(((ActionOperation)leftOperation).divideConstant(constant))
+				return leftOperation.simplify();
 		}
 		return this;
 	}
@@ -29,5 +35,25 @@ public class DivisionOperation extends ActionOperation {
 	@Override
 	public void multiply(Operation operation) {
 		leftOperation = new MultiplicationOperation(leftOperation, operation).simplify();
+	}
+
+	@Override
+	public boolean multiplyConstant(double constant) {
+		return false;
+	}
+
+	@Override
+	public boolean addConstant(double constant) {
+		return false;
+	}
+
+	@Override
+	public boolean divideConstant(double constant) {
+		return false;
+	}
+
+	@Override
+	public boolean subtractConstant(double constant) {
+		return false;
 	}
 }
