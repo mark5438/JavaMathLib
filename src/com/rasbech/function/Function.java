@@ -19,7 +19,9 @@ public class Function {
 	}
 
 	public static Function parseFunction(String function) {
-		return FunctionParser.parseFunction(function);
+		Function f = FunctionParser.parseFunction(function);
+		f.simplify();
+		return f;
 	}
 
 	public char[] getVariables() {
