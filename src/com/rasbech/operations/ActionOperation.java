@@ -91,8 +91,7 @@ public abstract class ActionOperation implements Operation {
 
 	protected static boolean attemptDivideConstant(double constant, Operation operation) {
 		if (operation.isNumeric()) {
-			((ExpressionOperation) operation).divide(constant);
-			return true;
+			return ((ExpressionOperation) operation).divide(constant);
 		}
 		return false;
 	}

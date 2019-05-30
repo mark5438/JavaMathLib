@@ -51,9 +51,22 @@ public class ExpressionOperation implements Operation {
 			((ConstantExpression) expression).multiply(value);
 	}
 	
-	public void divide(double value) {
+	/**
+	 * <b>divide()</b>
+	 * <p>
+	 * Checks if constant value after division will have 2 decima places or less. If
+	 * so, it will divide and return true. Otherwise no action is performed and
+	 * false is returned
+	 * </p>
+	 * 
+	 * @param value
+	 *            The constant dividing by
+	 * @return Boolean. Whether or not values were divided.
+	 */
+	public boolean divide(double value) {
 		if(isNumeric())
-			((ConstantExpression) expression).divide(value);
+			return ((ConstantExpression) expression).divide(value);
+		return false;
 	}
 	
 	@Override

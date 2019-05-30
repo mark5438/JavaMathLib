@@ -55,11 +55,11 @@ public class MultiplicationOperation extends ActionOperation {
 	public boolean multiplyConstant(double constant) {
 		if(attemptMultiplyConstant(constant, leftOperation) || attemptMultiplyConstant(constant, rightOperation))
 			return true;
-		if (rightOperation.isMultiplicationOperation() || rightOperation.isDivisionOperation()) {
-			return ((MultiplicationOperation) rightOperation).multiplyConstant(constant);
+		if (rightOperation.isActionOperation()) {
+			return ((ActionOperation) rightOperation).multiplyConstant(constant);
 		}
-		if (leftOperation.isMultiplicationOperation() || rightOperation.isDivisionOperation()) {
-			return ((MultiplicationOperation) leftOperation).multiplyConstant(constant);
+		if (leftOperation.isActionOperation()) {
+			return ((ActionOperation) leftOperation).multiplyConstant(constant);
 		}
 		return false;
 	}
